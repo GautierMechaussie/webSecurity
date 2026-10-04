@@ -66,9 +66,9 @@ def login():
         password = request.form.get("password", "")
         conn = sqlite3.connect(DB)
         # Requete construite par concatenation
-        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+        query = "SELECT * FROM users WHERE username = ? AND password = ?"
         try:
-            user = conn.execute(query).fetchone()
+            user = conn.execute(query, (username, password)).fetchone()
         except sqlite3.Error as e:
             return page("Erreur", f"<p>Erreur SQL : {e}</p>")
         finally:
